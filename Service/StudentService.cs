@@ -1,4 +1,5 @@
-﻿using CBAdmin.Models;
+﻿using CBAdmin.Data;
+using CBAdmin.Models;
 using Microsoft.Extensions.Configuration;
 using Raven.Client.Documents;
 using System;
@@ -17,13 +18,7 @@ namespace CBAdmin.Service
         {
             _config = config;
 
-            var documentStore = new DocumentStore
-            {
-                Urls = new[] { "http://localhost:8080" },
-                Database = "DockerDB"
-            };
-
-            _db = documentStore.Initialize();
+            _db = DocumentStoreHolder.Store;
         }
 
         public StudentService()

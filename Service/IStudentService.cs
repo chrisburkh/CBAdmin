@@ -11,5 +11,6 @@ namespace CBAdmin.Service
         Task<IList<Student>> GetStudentListAsynch();
         Student GetStudent(string id);
         void SaveStudent(Student student);
+        void DeleteStudent(string id);
     }
 }
