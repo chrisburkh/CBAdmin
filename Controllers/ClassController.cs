@@ -9,13 +9,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CBAdmin.Controllers
 {
-    public class TeacherController : Controller
+    public class ClassController : Controller
     {
-        private IService<Teacher> _service;
+        private IService<Class> _service;
 
-        public TeacherController(IService<Teacher> teacherService)
+        public ClassController(IService<Class> classService)
         {
-            _service = teacherService;
+            _service = classService;
         }
         // GET: Student
         public async Task<IActionResult> Index()
@@ -43,22 +43,22 @@ namespace CBAdmin.Controllers
         // POST: Student/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Teacher teacher)
+        public ActionResult Create(Class claz)
         {
             try
             {
                 // TODO: we have to set it this way so that ravendb creates a nice uuid for us. Remove to a better place.
-                if (teacher.Id == null)
+                if (claz.Id == null)
                 {
-                    teacher.Id = string.Empty;
+                    claz.Id = string.Empty;
                 }
-                _service.WriteEntity(teacher);
+                _service.WriteEntity(claz);
 
                 return RedirectToAction("Index");
             }
             catch
             {
-                return View(teacher);
+                return View(claz);
             }
         }
 
@@ -73,11 +73,11 @@ namespace CBAdmin.Controllers
         // POST: Student/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Teacher teacher)
+        public ActionResult Edit(Class claz)
         {
             try
             {
-                _service.WriteEntity(teacher);
+                _service.WriteEntity(claz);
 
                 return RedirectToAction("Index");
             }
@@ -98,12 +98,12 @@ namespace CBAdmin.Controllers
         // POST: Student/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(Teacher teacher)
+        public ActionResult Delete(Class claz)
         {
             try
             {
 
-                _service.DeleteEntity(teacher);
+                _service.DeleteEntity(claz);
 
                 return RedirectToAction("Index");
             }

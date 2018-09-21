@@ -9,17 +9,21 @@ namespace CBAdmin.Data
 {
     public class DocumentStoreHolder
     {
-        private static Lazy<IDocumentStore> store = new Lazy<IDocumentStore>(CreateStore);
+        private static Lazy<DocumentStore> store = new Lazy<DocumentStore>(CreateStore);
 
-        public static IDocumentStore Store => store.Value;
+        public static DocumentStore Store => store.Value;
 
-        private static IDocumentStore CreateStore()
+        private static DocumentStore CreateStore()
         {
-            IDocumentStore store = new DocumentStore()
+
+
+            DocumentStore store = new DocumentStore()
             {
                 Urls = new[] { "http://localhost:8080" },
                 Database = "DockerDB"
-            }.Initialize();
+            };
+
+            store.Initialize();
 
             return store;
         }

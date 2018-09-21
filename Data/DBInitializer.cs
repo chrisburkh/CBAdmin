@@ -83,12 +83,38 @@ namespace CBAdmin.Data
         private static void clear(IDocumentStore store)
         {
             var session = store.OpenSession();
+            session.Advanced.MaxNumberOfRequestsPerSession = 1000;
+
 
             var students = session.Query<Student>().ToList();
 
             foreach (Student s in students)
             {
                 session.Delete(s);
+                session.SaveChanges();
+            }
+
+            var teacher = session.Query<Teacher>().ToList();
+
+            foreach (Teacher t in teacher)
+            {
+                session.Delete(t);
+                session.SaveChanges();
+            }
+
+            var claz = session.Query<Class>().ToList();
+
+            foreach (Class c in claz)
+            {
+                session.Delete(c);
+                session.SaveChanges();
+            }
+
+            var course = session.Query<Course>().ToList();
+
+            foreach (Course co in course)
+            {
+                session.Delete(co);
                 session.SaveChanges();
             }
         }
