@@ -6,6 +6,7 @@ using CBAdmin.Models;
 using CBAdmin.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CBAdmin.Controllers
 {
@@ -66,8 +67,16 @@ namespace CBAdmin.Controllers
         public ActionResult Edit(string id)
         {
             var student = _service.GetEntity(id);
+
+            //PopulateGenderComboBox(student.Gender);
+
             return View(student);
 
+        }
+
+        private void PopulateGenderComboBox(GenderType gender)
+        {
+            // ViewBag.Gender = new SelectList(Enum.GetNames(GenderType).ToList, gender);
         }
 
         // POST: Student/Edit/5
