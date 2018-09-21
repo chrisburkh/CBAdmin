@@ -13,4 +13,14 @@
     <PackageReference Include="RavenDB.Client" Version="4.1.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Class\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Views\Teacher\Index.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+  </ItemGroup>
+
 </Project>

@@ -9,11 +9,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CBAdmin.Controllers
 {
-    public class StudentController : Controller
+    public class TeacherController : Controller
     {
-        private IService<Student> _service;
+        private IService<Teacher> _service;
 
-        public StudentController(IService<Student> studentservice)
+        public TeacherController(IService<Teacher> studentservice)
         {
             _service = studentservice;
         }
@@ -43,22 +43,22 @@ namespace CBAdmin.Controllers
         // POST: Student/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Student student)
+        public ActionResult Create(Teacher teacher)
         {
             try
             {
                 // TODO: we have to set it this way so that ravendb creates a nice uuid for us. Remove to a better place.
-                if (student.Id == null)
+                if (teacher.Id == null)
                 {
-                    student.Id = string.Empty;
+                    teacher.Id = string.Empty;
                 }
-                _service.WriteEntity(student);
+                _service.WriteEntity(teacher);
 
                 return RedirectToAction("Index");
             }
             catch
             {
-                return View(student);
+                return View(teacher);
             }
         }
 
@@ -73,11 +73,11 @@ namespace CBAdmin.Controllers
         // POST: Student/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Student student)
+        public ActionResult Edit(Teacher teacher)
         {
             try
             {
-                _service.WriteEntity(student);
+                _service.WriteEntity(teacher);
 
                 return RedirectToAction("Index");
             }
@@ -98,12 +98,12 @@ namespace CBAdmin.Controllers
         // POST: Student/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(Student student)
+        public ActionResult Delete(Teacher teacher)
         {
             try
             {
 
-                _service.DeleteEntity(student);
+                _service.DeleteEntity(teacher);
 
                 return RedirectToAction("Index");
             }

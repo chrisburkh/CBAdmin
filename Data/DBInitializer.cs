@@ -1,4 +1,5 @@
-﻿using CBAdmin.Models;
+﻿using CBAdmin.Enums;
+using CBAdmin.Models;
 using Raven.Client.Documents;
 using Raven.Client.Documents.Operations;
 using Raven.Client.Documents.Queries;
@@ -34,6 +35,46 @@ namespace CBAdmin.Data
             foreach (Student s in student)
             {
                 session.Store(s, null);
+                session.SaveChanges();
+            }
+
+            var teacher = new Teacher[]
+            {
+                new Teacher{LastName="Bingen", FirstMidName="Hildegard", Id = string.Empty, Gender = GenderType.Female, DateOfBirth = DateTime.Parse("1958-03-31"), Salary = SalaryType.A6, Employment_Commence = DateTime.Parse("2018-01-01")},
+                new Teacher{LastName="Diesel", FirstMidName="Rudolf", Id = string.Empty, Gender = GenderType.Male, DateOfBirth = DateTime.Parse("1900-01-31"), Salary = SalaryType.A8, Employment_Commence = DateTime.Parse("2017-01-01")},
+                new Teacher{LastName="Fischer", FirstMidName="Helene", Id = string.Empty, Gender = GenderType.Female, DateOfBirth = DateTime.Parse("1980-01-31"), Salary = SalaryType.A8, Employment_Commence = DateTime.Parse("2016-01-01")},
+                new Teacher{LastName="Humboldt", FirstMidName="Alexander", Id = string.Empty, Gender = GenderType.Male, DateOfBirth = DateTime.Parse("1905-01-31"), Salary = SalaryType.A8, Employment_Commence = DateTime.Parse("2015-01-01")},
+            };
+
+            foreach (Teacher t in teacher)
+            {
+                session.Store(t, null);
+                session.SaveChanges();
+            }
+
+            var course = new Course[]
+            {
+                new Course{Id  = string.Empty, Subject ="Deutsch", Abbreviation ="De"},
+                new Course{Id  = string.Empty, Subject ="Englisch", Abbreviation ="En"},
+                new Course{Id  = string.Empty, Subject ="Physik", Abbreviation ="Phy"},
+            };
+
+            foreach (Course c in course)
+            {
+                session.Store(c, null);
+                session.SaveChanges();
+            }
+
+            var classes = new Class[]
+            {
+                new Class{Id = string.Empty, Name ="8a"},
+                new Class{Id = string.Empty, Name ="8b"},
+                new Class{Id = string.Empty, Name ="8c"},
+            };
+
+            foreach (Class cl in classes)
+            {
+                session.Store(cl, null);
                 session.SaveChanges();
             }
 

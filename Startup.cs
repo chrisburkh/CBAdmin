@@ -37,7 +37,8 @@ namespace CBAdmin
 
             DBInitializer.initialize(DocumentStoreHolder.Store);
 
-            services.AddScoped<IStudentService, StudentService>();
+
+            services.AddScoped(typeof(IService<>), typeof(Service<>));
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
