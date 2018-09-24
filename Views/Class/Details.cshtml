@@ -17,10 +17,10 @@
             @Html.DisplayFor(model => model.Id)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Course)
+            @Html.DisplayNameFor(model => model.Course.Abbreviation)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Course)
+            @Html.DisplayFor(model => model.Course.Abbreviation)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Name)
@@ -29,10 +29,10 @@
             @Html.DisplayFor(model => model.Name)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Teacher)
+            @Html.DisplayNameFor(model => model.Teacher.FullName)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Teacher)
+            @Html.DisplayFor(model => model.Teacher.FullName)
         </dd>
     </dl>
 </div>

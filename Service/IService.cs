@@ -1,4 +1,5 @@
 ﻿using CBAdmin.Models;
+using Raven.Client.Documents.Session;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace CBAdmin.Service
 
         void DeleteEntity(T entity);
 
+        IDocumentSession GetSession();
 
     }
 }

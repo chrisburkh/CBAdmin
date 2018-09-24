@@ -19,6 +19,15 @@ namespace CBAdmin.Models
 
         public DateTime DateOfBirth { get; set; }
 
+        [Display(Name = "Full Name")]
+        public string FullName
+        {
+            get
+            {
+                return LastName + ", " + FirstMidName;
+            }
+        }
+
         public GenderType Gender { get; set; }
 
         [DisplayName("beschäftigt seit")]

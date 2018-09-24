@@ -65,11 +65,14 @@ namespace CBAdmin.Data
                 session.SaveChanges();
             }
 
+            var coursesDatabase = session.Query<Course>().ToList();
+            var teachersDataBase = session.Query<Teacher>().ToList();
+
             var classes = new Class[]
             {
-                new Class{Id = string.Empty, Name ="8a"},
-                new Class{Id = string.Empty, Name ="8b"},
-                new Class{Id = string.Empty, Name ="8c"},
+                new Class{Id = string.Empty, Name ="8a", CourseID = coursesDatabase[0].Id, TeacherID = teachersDataBase[0].Id},
+                new Class{Id = string.Empty, Name ="8b", CourseID = coursesDatabase[1].Id, TeacherID = teachersDataBase[1].Id},
+                new Class{Id = string.Empty, Name ="8c", CourseID = coursesDatabase[2].Id, TeacherID = teachersDataBase[2].Id},
             };
 
             foreach (Class cl in classes)

@@ -6,6 +6,8 @@ using CBAdmin.Models;
 using CBAdmin.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace CBAdmin.Controllers
 {
@@ -23,20 +25,50 @@ namespace CBAdmin.Controllers
 
             var list = (await _service.GetEntityListAsynch());
 
-            return View(list);
+            var session = _service.GetSession();
+
+            var clazzes = session.Query<Class>().Include(r => r.TeacherID).Include(r => r.CourseID).ToList<Class>();
+
+            //IList<Class> orders = session.Query<Class>().Incl
+
+            foreach (Class clazz in clazzes)
+            {
+                clazz.Teacher = session.Load<Teacher>(clazz.TeacherID);
+                clazz.Course = session.Load<Course>(clazz.CourseID);
+            }
+
+            return View(clazzes);
 
         }
 
         // GET: Student/Details/5
         public ActionResult Details(string id)
         {
-            var student = _service.GetEntity(id);
-            return View(student);
+            //var student = _service.GetEntity(id);
+
+            var session = _service.GetSession();
+
+            var clazz = session.Include("TeacherID").Include("CourseID").Load<Class>(id);
+
+            clazz.Teacher = session.Load<Teacher>(clazz.TeacherID);
+            clazz.Course = session.Load<Course>(clazz.CourseID);
+
+            return View(clazz);
         }
 
         // GET: Student/Create
         public ActionResult Create()
         {
+
+            var session = _service.GetSession();
+
+            var listTeacher = session.Query<Teacher>().ToList();
+
+            ViewData["TeacherID"] = new SelectList(listTeacher, "Id", "FullName");
+
+            var listCourse = session.Query<Course>().ToList();
+
+            ViewData["CourseID"] = new SelectList(listCourse, "Id", "Subject");
             return View();
         }
 
@@ -52,6 +84,8 @@ namespace CBAdmin.Controllers
                 {
                     claz.Id = string.Empty;
                 }
+
+
                 _service.WriteEntity(claz);
 
                 return RedirectToAction("Index");
@@ -66,6 +100,15 @@ namespace CBAdmin.Controllers
         public ActionResult Edit(string id)
         {
             var student = _service.GetEntity(id);
+
+            var session = _service.GetSession();
+
+            var listTeacher = session.Query<Teacher>().ToList();
+            var listCourse = session.Query<Course>().ToList();
+
+            ViewData["TeacherID"] = new SelectList(listTeacher, "Id", "FullName", student.TeacherID);
+            ViewData["CourseID"] = new SelectList(listCourse, "Id", "Subject", student.CourseID);
+
             return View(student);
 
         }
@@ -85,6 +128,16 @@ namespace CBAdmin.Controllers
             {
                 return View();
             }
+        }
+
+        private void PopulateDepartmentsDropDownList(object selectedDepartment = null)
+        {
+
+            var session = _service.GetSession();
+
+            var list = session.Query<Teacher>().ToList();
+
+            ViewBag.Teacher = new SelectList(list, "Id", "FullName", selectedDepartment);
         }
 
         // GET: Student/Delete/5

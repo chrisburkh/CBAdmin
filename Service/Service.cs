@@ -2,6 +2,7 @@
 using CBAdmin.Models;
 using Microsoft.Extensions.Configuration;
 using Raven.Client.Documents;
+using Raven.Client.Documents.Session;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,6 +40,7 @@ namespace CBAdmin.Service
             return entity;
         }
 
+
         public async Task<IList<T>> GetEntityListAsynch()
         {
             var session = _db.OpenAsyncSession();
@@ -55,6 +57,13 @@ namespace CBAdmin.Service
 
             session.Store(entity);
             session.SaveChanges();
+        }
+
+        public IDocumentSession GetSession()
+        {
+            return _db.OpenSession();
+
+
         }
     }
 }
