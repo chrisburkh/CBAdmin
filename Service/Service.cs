@@ -2,6 +2,7 @@
 using CBAdmin.Models;
 using Microsoft.Extensions.Configuration;
 using Raven.Client.Documents;
+using Raven.Client.Documents.Session;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,11 +22,11 @@ namespace CBAdmin.Service
             _db = DocumentStoreHolder.Store;
         }
 
-        public void DeleteEntity(T entity)
+        public void DeleteEntity(String id)
         {
             var session = _db.OpenSession();
-
-            session.Delete<T>(entity);
+            var x = session.Load<T>(id);
+            session.Delete<T>(x);
 
             session.SaveChanges();
         }
@@ -38,6 +39,7 @@ namespace CBAdmin.Service
 
             return entity;
         }
+
 
         public async Task<IList<T>> GetEntityListAsynch()
         {
@@ -55,6 +57,13 @@ namespace CBAdmin.Service
 
             session.Store(entity);
             session.SaveChanges();
+        }
+
+        public IDocumentSession GetSession()
+        {
+            return _db.OpenSession();
+
+
         }
     }
 }

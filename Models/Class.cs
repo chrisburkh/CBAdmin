@@ -14,11 +14,23 @@ namespace CBAdmin.Models
         [Required]
         public string Name { get; set; }
 
-        [Required]
+
+        public string CourseID { get; set; }
+
         public Course Course { get; set; }
-        [Required]
+
+        public string TeacherID { get; set; }
+
         public Teacher Teacher { get; set; }
 
         public ICollection<Student> Students { get; set; }
+
+        public List<String> SelectedStudents { get; set; }
+
+        public Class()
+        {
+            Students = new List<Student>();
+            SelectedStudents = new List<string>();
+        }
     }
 }

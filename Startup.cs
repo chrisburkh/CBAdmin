@@ -35,7 +35,7 @@ namespace CBAdmin
 
 
 
-            DBInitializer.initialize(DocumentStoreHolder.Store);
+            DBInitializer.Initialize(DocumentStoreHolder.Store);
 
 
             services.AddScoped(typeof(IService<>), typeof(Service<>));

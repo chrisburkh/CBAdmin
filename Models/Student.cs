@@ -18,6 +18,6 @@ namespace CBAdmin.Models
 
         public DateTime DateOfBirth { get; set; }
 
-        public GenderType Gender { get; set; }
+        public GenderType? Gender { get; set; }
     }
 }

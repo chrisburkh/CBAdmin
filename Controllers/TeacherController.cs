@@ -17,7 +17,7 @@ namespace CBAdmin.Controllers
         {
             _service = teacherService;
         }
-        // GET: Student
+        // GET: Teacher
         public async Task<IActionResult> Index()
         {
 
@@ -27,20 +27,20 @@ namespace CBAdmin.Controllers
 
         }
 
-        // GET: Student/Details/5
+        // GET: Teacher/Details/5
         public ActionResult Details(string id)
         {
             var student = _service.GetEntity(id);
             return View(student);
         }
 
-        // GET: Student/Create
+        // GET: Teacher/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Student/Create
+        // POST: Teacher/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Teacher teacher)
@@ -62,7 +62,7 @@ namespace CBAdmin.Controllers
             }
         }
 
-        // GET: Student/Edit/5
+        // GET: Teacher/Edit/5
         public ActionResult Edit(string id)
         {
             var student = _service.GetEntity(id);
@@ -70,7 +70,7 @@ namespace CBAdmin.Controllers
 
         }
 
-        // POST: Student/Edit/5
+        // POST: Teacher/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Teacher teacher)
@@ -87,7 +87,7 @@ namespace CBAdmin.Controllers
             }
         }
 
-        // GET: Student/Delete/5
+        // GET: Teacher/Delete/5
         public ActionResult Delete(string id)
         {
             var student = _service.GetEntity(id);
@@ -95,22 +95,16 @@ namespace CBAdmin.Controllers
             return View();
         }
 
-        // POST: Student/Delete/5
+        // POST: Teacher/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(Teacher teacher)
         {
-            try
-            {
 
-                _service.DeleteEntity(teacher);
+            _service.DeleteEntity(teacher.Id);
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            return RedirectToAction("Index");
+
         }
     }
 }
