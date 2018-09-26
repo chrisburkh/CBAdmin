@@ -12,6 +12,7 @@
       "commandName": "IISExpress",
       "launchBrowser": true,
       "environmentVariables": {
+        "CBADMIN_ravendb_url": "http://localhost:8080",
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },

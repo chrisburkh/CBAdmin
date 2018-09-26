@@ -15,7 +15,7 @@ namespace CBAdmin.Service
 
         void WriteEntity(T entity);
 
-        void DeleteEntity(T entity);
+        void DeleteEntity(String id);
 
         IDocumentSession GetSession();
 

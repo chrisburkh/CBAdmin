@@ -24,5 +24,13 @@ namespace CBAdmin.Models
         public Teacher Teacher { get; set; }
 
         public ICollection<Student> Students { get; set; }
+
+        public List<String> SelectedStudents { get; set; }
+
+        public Class()
+        {
+            Students = new List<Student>();
+            SelectedStudents = new List<string>();
+        }
     }
 }

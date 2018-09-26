@@ -7,6 +7,7 @@ using CBAdmin.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Raven.Client.Documents.Linq;
 
 namespace CBAdmin.Controllers
 {
@@ -19,10 +20,30 @@ namespace CBAdmin.Controllers
             _service = studentservice;
         }
         // GET: Student
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string SearchString)
         {
+            IList<Student> list = null;
 
-            var list = (await _service.GetEntityListAsynch());
+            if (!String.IsNullOrEmpty(SearchString))
+            {
+                var session = _service.GetSession();
+
+                list = (from employee in session.Query<Student>()
+                        where employee.FirstMidName.StartsWith(SearchString) ||
+                        employee.LastName.StartsWith(SearchString)
+                        select employee).ToList();
+
+                return View(list);
+
+            }
+            else
+            {
+                // all
+                list = (await _service.GetEntityListAsynch());
+            }
+
+
+
 
             return View(list);
 
@@ -68,16 +89,10 @@ namespace CBAdmin.Controllers
         {
             var student = _service.GetEntity(id);
 
-            //PopulateGenderComboBox(student.Gender);
-
             return View(student);
 
         }
 
-        private void PopulateGenderComboBox(GenderType gender)
-        {
-            // ViewBag.Gender = new SelectList(Enum.GetNames(GenderType).ToList, gender);
-        }
 
         // POST: Student/Edit/5
         [HttpPost]
@@ -109,17 +124,13 @@ namespace CBAdmin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Delete(Student student)
         {
-            try
-            {
 
-                _service.DeleteEntity(student);
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            _service.DeleteEntity(student.Id);
+
+            return RedirectToAction("Index");
+            //       return View();
+
         }
     }
 }

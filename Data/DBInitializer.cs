@@ -12,17 +12,67 @@ namespace CBAdmin.Data
 {
     public static class DBInitializer
     {
-        public static void initialize(IDocumentStore store)
+        public static void Initialize(IDocumentStore store)
         {
 
-            clear(store);
+            var resetDatabase = CheckForResetDatabase(store);
 
-            fill(store);
+            if (resetDatabase)
+            {
+
+                Clear(store);
+
+                Fill(store);
+
+            }
 
         }
 
-        private static void fill(IDocumentStore store)
+        private static bool CheckForResetDatabase(IDocumentStore store)
         {
+            var session = store.OpenSession();
+
+            var settings = new SystemSetting("CBAdmin");
+
+            if (session.Query<SystemSetting>().Any())
+            {
+                var s = session.Load<SystemSetting>(settings.Id);
+                session.Dispose();
+
+                writeSettings(store, settings);
+
+
+                return s.ResetDatabase;
+
+            }
+            else
+            {
+                writeSettings(store, settings);
+
+                return true;
+            }
+
+
+
+        }
+
+        private static void writeSettings(IDocumentStore store, SystemSetting settings)
+        {
+
+            using (var session = store.OpenSession())
+            {
+                settings.CreateTime = DateTime.Now;
+                settings.ResetDatabase = false;
+
+                session.Store(settings);
+                session.SaveChanges();
+
+            }
+        }
+
+        private static void Fill(IDocumentStore store)
+        {
+            Console.WriteLine("Writing Default Data into Database");
             var session = store.OpenSession();
 
             var student = new Student[]
@@ -70,7 +120,7 @@ namespace CBAdmin.Data
 
             var classes = new Class[]
             {
-                new Class{Id = string.Empty, Name ="8a", CourseID = coursesDatabase[0].Id, TeacherID = teachersDataBase[0].Id},
+                new Class{Id = string.Empty, Name ="8a", CourseID = coursesDatabase[0].Id, TeacherID = teachersDataBase[0].Id, Students = student},
                 new Class{Id = string.Empty, Name ="8b", CourseID = coursesDatabase[1].Id, TeacherID = teachersDataBase[1].Id},
                 new Class{Id = string.Empty, Name ="8c", CourseID = coursesDatabase[2].Id, TeacherID = teachersDataBase[2].Id},
             };
@@ -83,7 +133,7 @@ namespace CBAdmin.Data
 
         }
 
-        private static void clear(IDocumentStore store)
+        private static void Clear(IDocumentStore store)
         {
             var session = store.OpenSession();
             session.Advanced.MaxNumberOfRequestsPerSession = 1000;

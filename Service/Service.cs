@@ -22,11 +22,11 @@ namespace CBAdmin.Service
             _db = DocumentStoreHolder.Store;
         }
 
-        public void DeleteEntity(T entity)
+        public void DeleteEntity(String id)
         {
             var session = _db.OpenSession();
-
-            session.Delete<T>(entity);
+            var x = session.Load<T>(id);
+            session.Delete<T>(x);
 
             session.SaveChanges();
         }

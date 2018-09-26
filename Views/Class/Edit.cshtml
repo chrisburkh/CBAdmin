@@ -4,6 +4,8 @@
     ViewData["Title"] = "Edit";
 }
 
+
+
 <h2>Edit</h2>
 
 <h4>Class</h4>
@@ -32,11 +34,43 @@
                 <span asp-validation-for="TeacherID" class="text-danger" />
             </div>
             <div class="form-group">
+                @Html.ListBoxFor(x => x.SelectedStudents, new MultiSelectList(Model.Students, "Id", "LastName"))
+
+            </div>
+            <!--
+            <table class="table">
+                <tr>
+                    <th>Vorname</th>
+                    <th>Nachname</th>
+                </tr>
+                @foreach (var item in Model.Students)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FirstMidName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LastName)
+                        </td>
+                        <td>
+                        <td>
+                            <a href="#" class="removeLink">Remove</a>
+
+                        </td>
+
+
+                    </tr>
+                }
+            </table>
+                -->
+            <div class="form-group">
                 <input type="submit" value="Save" class=" btn btn-default" />
             </div>
         </form>
     </div>
 </div>
+
+
 
 <div>
     <a asp-action="Index">Back to List</a>
@@ -44,4 +78,12 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript">
+        $(".removeLink").on("click", function () {
+            var trow = $(this).closest("tr");
+            trow.remove();
+
+            return false;
+        });
+    </script>
 }
